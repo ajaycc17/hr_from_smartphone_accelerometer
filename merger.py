@@ -1,9 +1,10 @@
+# This script merges multiple accelerometer data file for a given day into a single file and deletes the original files.
 import os
 import re
 from datetime import datetime, timedelta
 
 # Folder where your files are located
-directory = './accelerometer_data_from_phone'  # change this to your path if needed
+directory = "./accelerometer_data_from_phone"  # change this to your path if needed
 
 # Define the date range
 start_date = datetime.strptime("25-03-2025", "%d-%m-%Y")
@@ -14,7 +15,9 @@ while current_date <= end_date:
     date_str = current_date.strftime("%Y-%m-%d")  # Match against filenames
     output_date = current_date.strftime("%d-%m-%Y")  # For output file name
 
-    pattern = re.compile(rf"accelerometer_data_{date_str}_(\d{{2}}-\d{{2}}-\d{{2}})\.txt")
+    pattern = re.compile(
+        rf"accelerometer_data_{date_str}_(\d{{2}}-\d{{2}}-\d{{2}})\.txt"
+    )
     files_with_time = []
 
     for filename in os.listdir(directory):
@@ -29,10 +32,10 @@ while current_date <= end_date:
         print(f"No files found for {output_date}")
     else:
         output_file = f"merged_{output_date}.txt"
-        with open(output_file, 'w') as outfile:
+        with open(output_file, "w") as outfile:
             for time_part, filename in files_with_time:
                 filepath = os.path.join(directory, filename)
-                with open(filepath, 'r') as infile:
+                with open(filepath, "r") as infile:
                     outfile.write(infile.read())
                     outfile.write("\n")  # Optional: separate entries
 
